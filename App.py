@@ -4,8 +4,7 @@
 # Import Text cleaning function
 import streamlit as st
 from Cleaning import clean
-from tensorflow import keras
-from keras.preprocessing import sequence
+from tensorflow.keras.preprocessing import sequence
 from transformers import BertTokenizer
 from transformers import RobertaTokenizer
 import pickle
