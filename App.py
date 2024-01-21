@@ -1,3 +1,7 @@
+
+# Import Libraries 
+#-----------------------------------
+# Import Text cleaning function
 import streamlit as st
 from Cleaning import clean
 from tensorflow import keras
@@ -24,35 +28,51 @@ def Import_Models():
 
     Bert_tokenizer = BertTokenizer.from_pretrained('BertTokenizer')
     Bert_model = load_model('BertCnn.h5')
+
+    # Load BERT tokenizer
     Robert_tokenizer = RobertaTokenizer.from_pretrained('RoBertTokenizer')
     RoBert_model = load_model('RoBertCnn.h5')
     return  BiLSTM_tokenizer , BiLSTM_model , Bert_tokenizer , Bert_model , Robert_tokenizer , RoBert_model
+# -------------------------------
 BiLSTM_tokenizer , BiLSTM_model , Bert_tokenizer , Bert_model , Robert_tokenizer , RoBert_model = Import_Models()
+
 Class = {0:'Non-Spam' , 1 : 'Spam'}
+# -------------------------------
+
 def BiLSTM(text):
     sequences = BiLSTM_tokenizer.texts_to_sequences(text)
     sequences = sequence.pad_sequences(sequences, maxlen=50)
     Result = BiLSTM_model.predict(sequences)
     return Result  
+
 def BertCNN (text):
     Bert_Sequences = Bert_tokenizer(text, padding= 'max_length' , truncation=True, max_length=80)
     Result = Bert_model.predict(Bert_Sequences['input_ids'])
     return Result  
+
 def RoBertCNN (text):
     Robert_Sequences = Robert_tokenizer(text, padding= 'max_length' , truncation=True, max_length=80)
     Result = RoBert_model.predict(Robert_Sequences['input_ids'])
     return Result
+
 def calssification (text):
+    # Classification using classifier
     BiLSTM_Result = BiLSTM(text)
     Bert_Result = BertCNN (text)
     RoBertCNN_Result = RoBertCNN(text)
+
+    # Calculate the result
     BiLSTM_output=np.argmax(BiLSTM_Result,axis=1)
     Bert_output=np.argmax(Bert_Result,axis=1)
     RoBertCNN_output=np.argmax(RoBertCNN_Result,axis=1)
     Result = Class[stt.mode ([BiLSTM_output ,Bert_output ,RoBertCNN_output  ])[0][0]]
+
+
+    # Creat the dataframe
     BiLSTM_H = round (BiLSTM_Result[0][0]*100 ,1) 
     Bert_H = round (Bert_Result[0][0]*100,1) 
     Roberta_H = round(RoBertCNN_Result[0][0]*100,1) 
+          
     BiLSTM_S = round (BiLSTM_Result[0][1]*100,1) 
     Bert_S = round (Bert_Result[0][1]*100,1)
     Roberta_S = round (RoBertCNN_Result[0][1]*100,1)
@@ -128,10 +148,15 @@ p3 = """
 
 with st.sidebar:
     st.sidebar.image("Asset_2.png" )
+    # st.sidebar.image("Logo.png", use_column_width=True )
     st.title(" :blue[Hybrid Spam Checker]")
-    st.sidebar.image("Logo.png" ) 
-    new_title = '<p style="font-family:Calibri (Body); color:#00B0F0; font-size: 14px;">Tarafından Tasarlandı</p>'
+    st.sidebar.image("Logo.png" )
+    
+    new_title = '<p style="font-family:Calibri (Body); color:#00B0F0; font-size: 14px;">Designed by</p>'
     st.markdown(new_title, unsafe_allow_html=True)
+
+    # st.caption("Maysara Mazin Alsaad (PhD Candidate)")
+    # st.write(paragraph)
     st.write(about, unsafe_allow_html=True)
     st.write(paragraph, unsafe_allow_html=True)
     st.write(paragraph2, unsafe_allow_html=True)
