@@ -1,7 +1,10 @@
+
+# Import Libraries 
+#-----------------------------------
+# Import Text cleaning function
 import streamlit as st
 from Cleaning import clean
-from tensorflow import keras
-from keras.preprocessing import sequence
+from tensorflow.keras.preprocessing import sequence
 from transformers import BertTokenizer
 from transformers import RobertaTokenizer
 import pickle
@@ -24,35 +27,51 @@ def Import_Models():
 
     Bert_tokenizer = BertTokenizer.from_pretrained('BertTokenizer')
     Bert_model = load_model('BertCnn.h5')
+
+    # Load BERT tokenizer
     Robert_tokenizer = RobertaTokenizer.from_pretrained('RoBertTokenizer')
     RoBert_model = load_model('RoBertCnn.h5')
     return  BiLSTM_tokenizer , BiLSTM_model , Bert_tokenizer , Bert_model , Robert_tokenizer , RoBert_model
+# -------------------------------
 BiLSTM_tokenizer , BiLSTM_model , Bert_tokenizer , Bert_model , Robert_tokenizer , RoBert_model = Import_Models()
+
 Class = {0:'Non-Spam' , 1 : 'Spam'}
+# -------------------------------
+
 def BiLSTM(text):
     sequences = BiLSTM_tokenizer.texts_to_sequences(text)
     sequences = sequence.pad_sequences(sequences, maxlen=50)
     Result = BiLSTM_model.predict(sequences)
     return Result  
+
 def BertCNN (text):
     Bert_Sequences = Bert_tokenizer(text, padding= 'max_length' , truncation=True, max_length=80)
     Result = Bert_model.predict(Bert_Sequences['input_ids'])
     return Result  
+
 def RoBertCNN (text):
     Robert_Sequences = Robert_tokenizer(text, padding= 'max_length' , truncation=True, max_length=80)
     Result = RoBert_model.predict(Robert_Sequences['input_ids'])
     return Result
+
 def calssification (text):
+    # Classification using classifier
     BiLSTM_Result = BiLSTM(text)
     Bert_Result = BertCNN (text)
     RoBertCNN_Result = RoBertCNN(text)
+
+    # Calculate the result
     BiLSTM_output=np.argmax(BiLSTM_Result,axis=1)
     Bert_output=np.argmax(Bert_Result,axis=1)
     RoBertCNN_output=np.argmax(RoBertCNN_Result,axis=1)
     Result = Class[stt.mode ([BiLSTM_output ,Bert_output ,RoBertCNN_output  ])[0][0]]
+
+
+    # Creat the dataframe
     BiLSTM_H = round (BiLSTM_Result[0][0]*100 ,1) 
     Bert_H = round (Bert_Result[0][0]*100,1) 
     Roberta_H = round(RoBertCNN_Result[0][0]*100,1) 
+          
     BiLSTM_S = round (BiLSTM_Result[0][1]*100,1) 
     Bert_S = round (Bert_Result[0][1]*100,1)
     Roberta_S = round (RoBertCNN_Result[0][1]*100,1)
@@ -90,27 +109,27 @@ def calssification (text):
 #---------------------------------------------------------------------
 
 paragraph = """
-<p><strong><u>Projenin Hedefi</u></strong></p>
-<p style="text-align: justify;">Sahte yorumları tespit etmeye yönelik artan ilgiye rağmen, önceki çalışmalar farklı tüketici deneyimleri gerektiren çeşitli ürünler için sahte yorumları tespit etme kapasitesini araştırmamıştır. Bu sorunların üstesinden gelmek için, en son yapay zeka teknolojilerini kullanarak e-ticaret sitelerindeki sahte yorumları tespit etmek için bir web sitesi önerdik. Sahte yorumları etkili bir şekilde tespit etmek için bir Transformatör (BERT ve Roberta) ve Evrişimsel Sinir Ağlarının (CNN) güçlü yönlerini birleştiren hibrit bir mimari model kullandık.</p>
+<p><strong><u>The Goal of Designing This Website</u></strong></p>
+<p style="text-align: justify;">Despite the growing interest in detecting false reviews, prior studies have not explored the capacity to detect fake reviews for diverse products, which require distinct consumer experiences. To overcome these problems, we proposed a website to detect fake reviews on e-commerce sites using the latest artificial intelligence technologies. We have employed a hybrid architecture model that combines the strengths of a Transformer (BERT and Roberta) and Convolutional Neural Networks (CNN) to effectively detect fake reviews.</p>
 """
 
 paragraph2 = """
-<p><strong><u>Adanmışlık</u></strong></p>
-<p>Rehberim Arş. Gör. Musa DOĞAN'a ve Selçuk Üniversitesi Bilgisayar Mühendisliği Bölümü'nün her bir üyesine teşekkür ederim. Bu çalışmada mükemmellikten daha azını elde etmemde bana yardımcı oldular. Umarım bu site bir bütün olarak toplum için faydalı olur ve tüketicilerin bilinçli kararlar almasına ve çevrimiçi incelemelerin güvenilirliğinin artırılmasına katkıda bulunur. Son olarak, bu web sitesinin kendi özgün ve bağımsız çalışmam olduğunu ve kimsenin telif hakkını ihlal etmediğini veya başka herhangi bir fikri mülkiyet hakkını ihlal etmediğini beyan ederim.</p>
+<p><strong><u>Dedication</u></strong></p>
+<p>A very special thanks to my guide Prof. Dr. Hiren Joshi, and each member of the Department of Computer Science, Gujarat University. They helped me achieve nothing less than excellence in this work. I hope that this site will be useful to society as a whole and contribute to helping consumers make informed decisions and improving the credibility of online reviews. In the end, I declare that this website is my own original and independent work and does not infringe upon anyone&rsquo;s copyright or violate any other intellectual property rights.</p>
 """
 
 about = """
-<p><strong>Adam Mungan&nbsp;</strong>:</p>
+<p><strong>Maysara Mazin Alsaad&nbsp;</strong>(PhD Candidate):</p>
 <ul>
-<li>Bölüm: BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜMÜ </li>
-<li>Üniversite: SELÇUK ÜNİVERSİTESİ</li>
-<li>E-posta: <a href="adammungan@gmail.com" target="_blank" rel="noopener noreferrer">adammungan@gmail.com</a></li>
+<li>Department: Computer Science</li>
+<li>University: Gujarat University, Ahmedabad, India.</li>
+<li>Email: <a href="mailto:maysara@gujaratuniversity.ac.in" target="_blank" rel="noopener noreferrer">maysara@gujaratuniversity.ac.in</a></li>
 </ul>
-<p><strong>Arş. Gör. Musa DOĞAN ssy</strong> (Danışman):</p>
+<p><strong>Prof. Dr. Hiren Joshi</strong> (Guide):</p>
 <ul>
-<li>Bölüm: BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜMÜ </li>
-<li>Üniversite: SELÇUK ÜNİVERSİTESİ</li>
-<li>E-posta:&nbsp;<a href="musa.dogan@selcuk.edu.tr" target="_blank" rel="noopener noreferrer">musa.dogan@selcuk.edu.tr</a></li>
+<li>Department: Computer Science</li>
+<li>University: Gujarat University, Ahmedabad, India.</li>
+<li>Email:&nbsp;<a href="mailto:hdjoshi@gujaratuniversity.ac.in" target="_blank" rel="noopener noreferrer">hdjoshi@gujaratuniversity.ac.in</a></li>
 </ul>
 <p>&nbsp;</p>
 """
@@ -118,9 +137,10 @@ about = """
 p3 = """
 <hr/>
 <p style="font-family:Calibri (Body); font-size: 14px;"><strong>Maysara Mazin Alsaad </strong>(PhD Candidate)</p>
-<p>Bilgisayar Mühendisliği</p>
-<p>Selçuk Üniversitesi.</p>
-<p>📧 adammungan@gmail.com</a></p>
+<p>Department of Computer Science</p>
+<p>Gujarat University, Ahmedabad, India.</p>
+<p>📧 maysara@gujaratuniversity.ac.in</a></p>
+<p>📞 +974 66457667</p>
 <hr/>
 
 """
@@ -128,16 +148,17 @@ p3 = """
 
 with st.sidebar:
     st.sidebar.image("Asset_2.png" )
+    # st.sidebar.image("Logo.png", use_column_width=True )
     st.title(" :blue[Hybrid Spam Checker]")
-    st.sidebar.image("Logo.png" ) 
-    new_title = '<p style="font-family:Calibri (Body); color:#00B0F0; font-size: 14px;">Tarafından Tasarlandı</p>'
-    st.markdown(new_title, unsafe_allow_html=True)
+    st.sidebar.image("Logo.png" )
+
+
+    # st.caption("Maysara Mazin Alsaad (PhD Candidate)")
+    # st.write(paragraph)
     st.write(about, unsafe_allow_html=True)
     st.write(paragraph, unsafe_allow_html=True)
     st.write(paragraph2, unsafe_allow_html=True)
     st.write(p3, unsafe_allow_html=True)
-
-
 
 prompt = st.chat_input("Say something")
 if prompt:
@@ -164,7 +185,6 @@ if prompt:
     df['Spam'] = df['Spam'].apply( lambda x : str(round (x,1)) + '%')
     avg['NonSpam'] = avg['NonSpam'].apply( lambda x : str(round (x,1)) + '%')
     avg['Spam'] = avg['Spam'].apply( lambda x : str(round (x ,1)) + '%')
-    avg = avg.rename( index={'mean': 'Probability Average'})
 
 
     if CL == "Spam":
@@ -180,8 +200,8 @@ if prompt:
     fig = make_subplots(
         rows=1, cols=3,
         specs=[[{"type": "table"}, {"type": "table"} , {"type": "bar"}]], 
-        vertical_spacing=0.1,column_widths=[0.45, 0.45 , 0.1],
-        subplot_titles=("The probabilities of classifiers", "The Probability Average of Classifers", "Average"))
+        vertical_spacing=0.1,column_widths=[0.6, 0.3 , 0.1],
+        subplot_titles=("The probabilities of classifiers", "Statistics", "Average"))
     ##########################################
     fig.add_trace(
         go.Table(
@@ -192,7 +212,7 @@ if prompt:
     fig.add_trace(
         go.Table(
             header_values= ["Statistic" , "Sapm" , "Non-Spam"],
-            cells_values= [avg[0:1].index, avg[0:1].Spam.values , avg[0:1].NonSpam.values ] , columnwidth = [0.45 , 0.27 , 0.27] 
+            cells_values= [avg.index, avg.Spam.values , avg.NonSpam.values ] , columnwidth = [0.33 , 0.33 , 0.33] 
         ),  row=1, col=2)
 
     ##########################################
