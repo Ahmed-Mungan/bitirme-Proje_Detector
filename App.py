@@ -136,7 +136,7 @@ about = """
 
 p3 = """
 <hr/>
-<p style="font-family:Calibri (Body); font-size: 14px;"><strong>Maysara Mazin Alsaad </strong>(PhD Candidate)</p>
+<p style="font-family:Calibri (Body); font-size: 14px;"><strong>Adam Mungan</p>
 <p>Bilgisayar Mühendisliği</p>
 <p>Selçuk Üniversitesi.</p>
 <p>📧 adammungan@gmail.com</a></p>
