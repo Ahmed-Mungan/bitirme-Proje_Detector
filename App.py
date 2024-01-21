@@ -110,27 +110,27 @@ def calssification (text):
 #---------------------------------------------------------------------
 
 paragraph = """
-<p><strong><u>The Goal of Designing This Website</u></strong></p>
-<p style="text-align: justify;">Despite the growing interest in detecting false reviews, prior studies have not explored the capacity to detect fake reviews for diverse products, which require distinct consumer experiences. To overcome these problems, we proposed a website to detect fake reviews on e-commerce sites using the latest artificial intelligence technologies. We have employed a hybrid architecture model that combines the strengths of a Transformer (BERT and Roberta) and Convolutional Neural Networks (CNN) to effectively detect fake reviews.</p>
+<p><strong><u>Projenin Hedefi</u></strong></p>
+<p style="text-align: justify;">Sahte yorumları tespit etmeye yönelik artan ilgiye rağmen, önceki çalışmalar farklı tüketici deneyimleri gerektiren çeşitli ürünler için sahte yorumları tespit etme kapasitesini araştırmamıştır. Bu sorunların üstesinden gelmek için, en son yapay zeka teknolojilerini kullanarak e-ticaret sitelerindeki sahte yorumları tespit etmek için bir web sitesi önerdik. Sahte yorumları etkili bir şekilde tespit etmek için bir Transformatör (BERT ve Roberta) ve Evrişimsel Sinir Ağlarının (CNN) güçlü yönlerini birleştiren hibrit bir mimari model kullandık.</p>
 """
 
 paragraph2 = """
-<p><strong><u>Dedication</u></strong></p>
-<p>A very special thanks to my guide Prof. Dr. Hiren Joshi, and each member of the Department of Computer Science, Gujarat University. They helped me achieve nothing less than excellence in this work. I hope that this site will be useful to society as a whole and contribute to helping consumers make informed decisions and improving the credibility of online reviews. In the end, I declare that this website is my own original and independent work and does not infringe upon anyone&rsquo;s copyright or violate any other intellectual property rights.</p>
+<p><strong><u>Adanmışlık</u></strong></p>
+<p>Rehberim Arş. Gör. Musa DOĞAN'a ve Selçuk Üniversitesi Bilgisayar Mühendisliği Bölümü'nün her bir üyesine teşekkür ederim. Bu çalışmada mükemmellikten daha azını elde etmemde bana yardımcı oldular. Umarım bu site bir bütün olarak toplum için faydalı olur ve tüketicilerin bilinçli kararlar almasına ve çevrimiçi incelemelerin güvenilirliğinin artırılmasına katkıda bulunur. Son olarak, bu web sitesinin kendi özgün ve bağımsız çalışmam olduğunu ve kimsenin telif hakkını ihlal etmediğini veya başka herhangi bir fikri mülkiyet hakkını ihlal etmediğini beyan ederim.</p>
 """
 
 about = """
-<p><strong>Ahmet Mungan&nbsp;</strong>(Bachelor Candidate):</p>
+<p><strong>Adam Mungan&nbsp;</strong>:</p>
 <ul>
-<li>Department: BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜMÜ </li>
-<li>University: SELÇUK ÜNİVERSİTESİ</li>
-<li>Email: <a href="ahmet_mungan@gmail.com" target="_blank" rel="noopener noreferrer">ahmet_mungan@gmail.com</a></li>
+<li>Bölüm: BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜMÜ </li>
+<li>Üniversite: SELÇUK ÜNİVERSİTESİ</li>
+<li>E-posta: <a href="adammungan@gmail.com" target="_blank" rel="noopener noreferrer">adammungan@gmail.com</a></li>
 </ul>
-<p><strong>Arş. Gör. Musa DOĞAN ssy</strong> (Guide):</p>
+<p><strong>Arş. Gör. Musa DOĞAN ssy</strong> (Danışman):</p>
 <ul>
-<li>Department: BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜMÜ </li>
-<li>University: SELÇUK ÜNİVERSİTESİ</li>
-<li>Email:&nbsp;<a href="Musa@gujaratuniversity.ac.in" target="_blank" rel="noopener noreferrer">Musa@gujaratuniversity.ac.in</a></li>
+<li>Bölüm: BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜMÜ </li>
+<li>Üniversite: SELÇUK ÜNİVERSİTESİ</li>
+<li>E-posta:&nbsp;<a href="musa.dogan@selcuk.edu.tr" target="_blank" rel="noopener noreferrer">musa.dogan@selcuk.edu.tr</a></li>
 </ul>
 <p>&nbsp;</p>
 """
@@ -138,10 +138,9 @@ about = """
 p3 = """
 <hr/>
 <p style="font-family:Calibri (Body); font-size: 14px;"><strong>Maysara Mazin Alsaad </strong>(PhD Candidate)</p>
-<p>Department of Computer Science</p>
-<p>Gujarat University, Ahmedabad, India.</p>
-<p>📧 maysara@gujaratuniversity.ac.in</a></p>
-<p>📞 +974 66457667</p>
+<p>Bilgisayar Mühendisliği</p>
+<p>Selçuk Üniversitesi.</p>
+<p>📧 adammungan@gmail.com</a></p>
 <hr/>
 
 """
@@ -149,15 +148,10 @@ p3 = """
 
 with st.sidebar:
     st.sidebar.image("Asset_2.png" )
-    # st.sidebar.image("Logo.png", use_column_width=True )
     st.title(" :blue[Hybrid Spam Checker]")
-    st.sidebar.image("Logo.png" )
-    
-    new_title = '<p style="font-family:Calibri (Body); color:#00B0F0; font-size: 14px;">Designed by</p>'
+    st.sidebar.image("Logo.png" ) 
+    new_title = '<p style="font-family:Calibri (Body); color:#00B0F0; font-size: 14px;">Tarafından Tasarlandı</p>'
     st.markdown(new_title, unsafe_allow_html=True)
-
-    # st.caption("Maysara Mazin Alsaad (PhD Candidate)")
-    # st.write(paragraph)
     st.write(about, unsafe_allow_html=True)
     st.write(paragraph, unsafe_allow_html=True)
     st.write(paragraph2, unsafe_allow_html=True)
